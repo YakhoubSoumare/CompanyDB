@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CompanyDB.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyDB.Data.Contexts;
@@ -17,5 +13,7 @@ public class CompanyDBContext: DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<EmployeePosition>().HasKey(ep=> new { ep.EmployeeId, ep.PositionId });
     }
 }
