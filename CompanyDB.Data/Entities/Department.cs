@@ -10,4 +10,6 @@ public class Department : IEntity
     public int CompanyId { get; set; }
     //Navigation property for Eager-Loading instead of Laser-Loading
     public Company? Company { get; set; }
+
+    public virtual ICollection<Employee>? Employees { get;}
 }

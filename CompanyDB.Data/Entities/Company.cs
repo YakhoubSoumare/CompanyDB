@@ -9,4 +9,6 @@ public class Company : IEntity
 
     [MaxLength(20), Required]
     public string? OrganizationNumber { get; set; }
+
+    public virtual ICollection<Department>? Departments { get; set; }
 }
