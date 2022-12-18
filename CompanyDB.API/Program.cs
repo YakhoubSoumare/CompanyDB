@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +14,9 @@ builder.Services.AddDbContext<CompanyDBContext>(
 options =>
 options.UseSqlServer(
 builder.Configuration.GetConnectionString("CompanyDBConnection")));
+
+ConfigureAutomapper(builder.Services);
+RegisterService(builder.Services);
 
 var app = builder.Build();
 
@@ -28,3 +34,23 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void ConfigureAutomapper(IServiceCollection services)
+{
+    var config = new MapperConfiguration(cfg =>
+    {
+        cfg.CreateMap<Employee, EmployeeDTO>().ReverseMap();
+        cfg.CreateMap<Company, CompanyDTO>().ReverseMap();
+        cfg.CreateMap<Department, DepartmentDTO>().ReverseMap();
+        cfg.CreateMap<Position, PositionDTO>().ReverseMap();
+    });
+
+    var mapper = config.CreateMapper();
+
+    services.AddSingleton(mapper);
+}
+
+void RegisterService(IServiceCollection services)
+{
+    services.AddScoped<IDbService, DbService>();
+}
