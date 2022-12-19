@@ -23,15 +23,32 @@ namespace CompanyDB.API.Controllers
 
         // GET api/<EmployeesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IResult> Get(int id)
         {
-            return "value";
+            var result = await _db.SingleAsync<Employee, EmployeeDTO>(e => e.Id.Equals(id));
+            if(result== null) { return Results.NotFound(); }
+            return Results.Ok(result);
         }
 
         // POST api/<EmployeesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IResult> Post([FromBody] EmployeeDTO dto)
         {
+            if(dto==null) return Results.BadRequest();
+            
+            try 
+            {
+                var entity = await _db.AddAsync<Employee, EmployeeDTO>(dto);
+                if (await _db.SaveChangesAsync())
+                {
+                    var node = typeof(Employee).Name.ToLower();
+                    string URI = $"{node}s/{entity.Id}";
+                    return Results.Created(URI, entity);
+                }   
+            }
+            catch { }
+
+            return Results.BadRequest();
         }
 
         // PUT api/<EmployeesController>/5
