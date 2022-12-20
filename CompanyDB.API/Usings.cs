@@ -5,4 +5,4 @@ global using CompanyDB.Data.Entities;
 global using CompanyDB.Data.Interfaces;
 global using CompanyDB.Data.Services;
 global using CompanyDB.Common.DTO;
-//global using CarRental.API.Extensions;
+global using CompanyDB.API.Extensions;

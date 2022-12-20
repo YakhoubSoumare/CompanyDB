@@ -8,42 +8,30 @@ namespace CompanyDB.API.Controllers
     [ApiController]
     public class PositionsController : ControllerBase
     {
-        private readonly IDbService _db;
+    private readonly IDbService _db;
 
-        public PositionsController(IDbService db)
-        {
-            _db = db;
-        }
-        // GET: api/<PositionsController>
-        [HttpGet]
-        public async Task<IResult> Get()
-        {
-            return Results.Ok(await _db.GetAsync<Position, PositionDTO>());
-        }
+    public PositionsController(IDbService db)
+    {
+        _db = db;
+    }
+    // GET: api/<EmployeesController>
+    [HttpGet]
+    public async Task<IResult> Get() => await _db.HttpGetAsync<Position, PositionDTO>();
 
-        // GET api/<PositionsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+    // GET api/<EmployeesController>/5
+    [HttpGet("{id}")]
+    public async Task<IResult> Get(int id) => await _db.HttpGetAsync<Position, PositionDTO>(id);
 
-        // POST api/<PositionsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+    // POST api/<EmployeesController>
+    [HttpPost]
+    public async Task<IResult> Post([FromBody] PositionDTO dto) => await _db.HttpPostAsync<Position, PositionDTO>(dto);
 
-        // PUT api/<PositionsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+    // PUT api/<EmployeesController>/5
+    [HttpPut("{id}")]
+    public async Task<IResult> Put(int id, [FromBody] PositionDTO dto) => await _db.HttpPutAsync<Position, PositionDTO>(id, dto);
 
-        // DELETE api/<PositionsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+    // DELETE api/<EmployeesController>/5
+    [HttpDelete("{id}")]
+    public async Task<IResult> HttpDeleteAsync(int id) => await _db.HttpDeleteAsync<Position>(id);
     }
 }

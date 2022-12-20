@@ -16,34 +16,22 @@ namespace CompanyDB.API.Controllers
         }
         // GET: api/<CompaniesController>
         [HttpGet]
-        public async Task<IResult> Get()
-        {
-            return Results.Ok(await _db.GetAsync<Company, CompanyDTO>());
-        }
+        public async Task<IResult> Get() => await _db.HttpGetAsync<Company, CompanyDTO>();
 
         // GET api/<CompaniesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        public async Task<IResult> Get(int id) => await _db.HttpGetAsync<Company, CompanyDTO>(id);
 
         // POST api/<CompaniesController>
         [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        public async Task<IResult> Post([FromBody] CompanyDTO dto) => await _db.HttpPostAsync<Company, CompanyDTO>(dto);
 
         // PUT api/<CompaniesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        public async Task<IResult> Put(int id, [FromBody] CompanyDTO dto) => await _db.HttpPutAsync<Company, CompanyDTO>(id, dto);
 
         // DELETE api/<CompaniesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        public async Task<IResult> HttpDeleteAsync(int id) => await _db.HttpDeleteAsync<Company>(id);
     }
 }
