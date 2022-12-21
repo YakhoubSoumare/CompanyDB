@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
 using CompanyDB.Data.Contexts;
+using CompanyDB.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CompanyDB.Data.Services;
@@ -78,5 +79,29 @@ public class DbService : IDbService
         }
         catch { throw; }
         return true;
+    }
+
+    public bool Delete<TReferenceEntity, TDto>(TDto dto)
+    where TReferenceEntity : class, IReferenceEntity
+    where TDto : class
+    {
+
+        try
+        {
+            var entity = _mapper.Map<TReferenceEntity>(dto);
+            if (entity is null) return false;
+            _db.Remove(entity);
+        }
+        catch { throw; }
+        return true;
+    }
+
+    public async Task<TReferenceEntity> PostAsync<TReferenceEntity, TDto>(TDto dto)
+    where TReferenceEntity : class, IReferenceEntity
+    where TDto : class
+    {
+        var entity = _mapper.Map<TReferenceEntity>(dto);
+        await _db.AddAsync(entity);
+        return entity;
     }
 }

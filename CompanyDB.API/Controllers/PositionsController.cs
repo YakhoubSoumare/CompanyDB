@@ -14,24 +14,24 @@ namespace CompanyDB.API.Controllers
     {
         _db = db;
     }
-    // GET: api/<EmployeesController>
-    [HttpGet]
+        // GET: api/<PositionsController>
+        [HttpGet]
     public async Task<IResult> Get() => await _db.HttpGetAsync<Position, PositionDTO>();
 
-    // GET api/<EmployeesController>/5
-    [HttpGet("{id}")]
+        // GET api/<PositionsController>/5
+        [HttpGet("{id}")]
     public async Task<IResult> Get(int id) => await _db.HttpGetAsync<Position, PositionDTO>(id);
 
-    // POST api/<EmployeesController>
-    [HttpPost]
+        // POST api/<PositionsController>
+        [HttpPost]
     public async Task<IResult> Post([FromBody] PositionDTO dto) => await _db.HttpPostAsync<Position, PositionDTO>(dto);
 
-    // PUT api/<EmployeesController>/5
-    [HttpPut("{id}")]
+        // PUT api/<PositionsController>/5
+        [HttpPut("{id}")]
     public async Task<IResult> Put(int id, [FromBody] PositionDTO dto) => await _db.HttpPutAsync<Position, PositionDTO>(id, dto);
 
-    // DELETE api/<EmployeesController>/5
-    [HttpDelete("{id}")]
+        // DELETE api/<PositionsController>/5
+        [HttpDelete("{id}")]
     public async Task<IResult> HttpDeleteAsync(int id) => await _db.HttpDeleteAsync<Position>(id);
     }
 }

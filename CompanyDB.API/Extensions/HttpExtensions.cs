@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CompanyDB.Data.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyDB.API.Extensions;
 
@@ -83,4 +84,47 @@ public static class HttpExtensions
         catch { throw; }
         return Results.BadRequest("Not Possible!");
     }
+
+    public static async Task<IResult> HttpDeleteAsync<TRefereceEntity, TDto>(this IDbService _db, TDto dto)
+    where TRefereceEntity : class, IReferenceEntity
+    where TDto : class
+    {
+        try
+        {
+            if (!_db.Delete<TRefereceEntity, TDto>(dto)) return Results.NotFound();
+            if (await _db.SaveChangesAsync()) return Results.NoContent();
+        }
+        catch { throw; }
+        return Results.BadRequest("Not Possible!");
+    }
+
+    public static async Task<IResult> HttpPost<TRefereceEntity, TDto>(this IDbService _db,  TDto dto)
+    where TRefereceEntity : class, IReferenceEntity
+    where TDto : class
+    {
+        if (dto == null) return Results.BadRequest();
+        try
+        {
+            var entity = await _db.PostAsync<TRefereceEntity, TDto>(dto);
+            if (await _db.SaveChangesAsync())
+            {
+                string URI = string.Empty;
+                var node = typeof(TRefereceEntity).Name.ToLower();
+                if (node.EndsWith("y"))
+                {
+                    URI = $"{node.Remove(node.Length - 1, 1) + "ie"}s";
+                }
+                else
+                {
+                    URI = $"{node}s";
+                }
+
+                return Results.Created(URI, entity);
+            }
+        }
+        catch { }
+        return Results.BadRequest();
+    }
+
+
 }

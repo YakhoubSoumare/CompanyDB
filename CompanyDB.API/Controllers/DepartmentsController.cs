@@ -14,19 +14,19 @@ namespace CompanyDB.API.Controllers
         {
             _db = db;
         }
-        // GET: api/<EmployeesController>
+        // GET: api/<DepartmentsController>
         [HttpGet]
         public async Task<IResult> Get() => await _db.HttpGetAsync<Department, DepartmentDTO>();
 
-        // GET api/<EmployeesController>/5
+        // GET api/<DepartmentsController>/5
         [HttpGet("{id}")]
         public async Task<IResult> Get(int id) => await _db.HttpGetAsync<Department, DepartmentDTO>(id);
 
-        // POST api/<EmployeesController>
+        // POST api/<DepartmentsController>
         [HttpPost]
         public async Task<IResult> Post([FromBody] DepartmentDTO dto) => await _db.HttpPostAsync<Department, DepartmentDTO>(dto);
 
-        // PUT api/<EmployeesController>/5
+        // PUT api/<DepartmentsController>/5
         [HttpPut("{id}")]
         public async Task<IResult> Put(int id, [FromBody] DepartmentDTO dto) => await _db.HttpPutAsync<Department, DepartmentDTO>(id, dto);
 

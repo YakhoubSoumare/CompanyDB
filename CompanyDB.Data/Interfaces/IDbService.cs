@@ -23,6 +23,14 @@ public interface IDbService
     Task<bool> DeleteAsync<TEntity>(int id)
     where TEntity : class, IEntity;
 
+    bool Delete<TReferenceEntity, TDto>(TDto dto) 
+    where TReferenceEntity : class, IReferenceEntity
+    where TDto : class;
+
+    Task<TReferenceEntity> PostAsync<TReferenceEntity, TDto>(TDto dto)
+    where TReferenceEntity : class, IReferenceEntity
+    where TDto : class;
+
     Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> expression)
     where TEntity : class, IEntity;
 
